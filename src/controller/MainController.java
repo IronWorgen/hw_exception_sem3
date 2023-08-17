@@ -7,8 +7,7 @@ import Exceptions.WrongSexException;
 import model.iModel;
 import view.iView;
 
-import javax.swing.text.DateFormatter;
-import java.sql.SQLOutput;
+
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -24,12 +23,15 @@ public class MainController {
         this.model = model;
     }
 
+    /**
+     * запуск приложения
+     */
     public void run() {
         boolean flag = true;
 
         while (flag) {
 
-            System.out.println("чтобы завершить работу введите \"q\".");
+            System.out.println("\nЧтобы завершить работу введите \"q\".");
             String userInput = view.getUserInput(
                     "Введите свои данные( фамилия, имя, отчество, дата рождения, телефон, пол(f/m))\n:");
 
@@ -46,6 +48,9 @@ public class MainController {
 
                 } catch (NotEnoughDataException e) {
                     view.showErrorMessage(e.getMessage());
+                    inputCheckFlag = true;
+                    break;
+
 
                 } catch (InValidNameException e) {
                     view.showErrorMessage(e.getMessage());
@@ -57,8 +62,9 @@ public class MainController {
                             userInputSplit[i] = newName[i];
                         }
                         userInput = String.join(" ", userInputSplit);
-                    }else {
-                        continue;
+                    } else {
+                        inputCheckFlag = true;
+                        break;
                     }
                     inputCheckFlag = true;
 
@@ -69,8 +75,9 @@ public class MainController {
                         String newDate = changeDate(userInputSplit[3]);
                         userInputSplit[3] = newDate;
                         userInput = String.join(" ", userInputSplit);
-                    }else {
-                        continue;
+                    } else {
+                        inputCheckFlag = true;
+                        break;
                     }
                     inputCheckFlag = true;
 
@@ -81,8 +88,9 @@ public class MainController {
                         String newPhoneNumber = changePhone(userInputSplit[4]);
                         userInputSplit[4] = newPhoneNumber;
                         userInput = String.join(" ", userInputSplit);
-                    }else {
-                        continue;
+                    } else {
+                        inputCheckFlag = true;
+                        break;
                     }
                     inputCheckFlag = true;
 
@@ -103,10 +111,16 @@ public class MainController {
                         userInputSplit[5] = changeSex;
                         userInput = String.join(" ", userInputSplit);
                         inputCheckFlag = true;
+                    } else {
+                        inputCheckFlag = true;
+                        break;
                     }
                 }
             }
-            model.saveUser();
+            if (!inputCheckFlag) {
+                String[] userInputSplit = userInput.split(" ");
+                model.saveUser(userInputSplit[0], userInput);
+            }
 
         }
         System.out.println("До свидания");
@@ -306,6 +320,13 @@ public class MainController {
         return false;
     }
 
+
+    /**
+     * проверка телефона
+     *
+     * @param phoneNumber - номер для проверки
+     * @return true -> была найдена ошибка, false -> проверка прошла успешно
+     */
     private boolean phoneCheckFalse(String phoneNumber) {
         if (phoneNumber.equals("")) {
             return true;

@@ -1,6 +1,9 @@
 package Exceptions;
 
-public class InValidNameException extends  RuntimeException {
+/**
+ * ошибка в ФИО
+ */
+public class InValidNameException extends RuntimeException {
     public InValidNameException(String message) {
         super(message);
     }

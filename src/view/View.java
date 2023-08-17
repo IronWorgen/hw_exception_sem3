@@ -2,10 +2,11 @@ package view;
 
 import java.util.Scanner;
 
-public class View implements  iView{
+public class View implements iView {
 
     /**
      * пользователь вводит данные
+     *
      * @return
      */
     @Override
@@ -18,17 +19,19 @@ public class View implements  iView{
 
     /**
      * отобразить сообщение об ошибке
+     *
      * @param message - сообщение пользователю
      */
     @Override
     public void showErrorMessage(String message) {
-        for (int i = 0; i < message.length()+"Ошибка!!! ".length(); i++) {
-            System.out.print("*");
-        }
-        System.out.println("\nОшибка!!! "+message);
-        for (int i = 0; i < message.length()+"Ошибка!!! ".length(); i++) {
-            System.out.print("*");
-        }
         System.out.println();
+        for (int i = 0; i < message.length() + "Ошибка!!! ".length(); i++) {
+            System.out.print("*");
+        }
+        System.out.println("\nОшибка!!! " + message);
+        for (int i = 0; i < message.length() + "Ошибка!!! ".length(); i++) {
+            System.out.print("*");
+        }
+        System.out.println("\n");
     }
 }
